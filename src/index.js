@@ -13,7 +13,7 @@ import githubSvgIcon from "../src/styles/images/github-svgrepo-com.svg";
 import { checkIfLocalStorageIsEmpty } from "./local-storage-manager";
 import { addProject, setTask } from "./information-holder";
 
-setDefaults();
+//setDefaults();
 function setDefaults() {
   if (checkIfLocalStorageIsEmpty() === true) {
     setTask(
