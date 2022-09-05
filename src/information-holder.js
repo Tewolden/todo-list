@@ -78,7 +78,7 @@ function taskAttributes(
 }
 
 //uses Task to make objects and pushes them to tasks.
-function setTask(title, description, dueDate, priority, projectId) {
+function setTask(title, description, dueDate, priority, projectId, taskTrue) {
   let dueDateFormatted = dueDate.replace(/-/g, "/");
   let dueDateObj = new Date(dueDateFormatted).toLocaleDateString("en-us", {
     year: "numeric",
@@ -93,8 +93,11 @@ function setTask(title, description, dueDate, priority, projectId) {
     title.replace(/ /g, "_") +
     getRandomIntInclusive()
   ).replace(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g, "");
-  const completedTracker = [false];
 
+  const completedTracker = [false];
+  if (taskTrue === "yes") {
+    completedTracker.push(true);
+  }
   tasks.push(
     Task(
       taskAttributes(
@@ -109,6 +112,7 @@ function setTask(title, description, dueDate, priority, projectId) {
     )
   );
   updateLocalStorage();
+  updateTasksAndProjects();
 }
 
 function updateLocalStorage() {
@@ -164,9 +168,12 @@ function deleteTask(theTasksId) {
   let taskIndex = findTaskIndex(theTasksId);
   tasks.splice(taskIndex, 1);
   updateLocalStorage();
+  updateTasksAndProjects();
 }
 
 function findTaskIndex(theTasksId) {
+  updateLocalStorage();
+  updateTasksAndProjects();
   let taskIndex = tasks.findIndex((index) =>
     checkForMatchingIds(index, theTasksId)
   );
@@ -189,6 +196,7 @@ function getRandomIntInclusive() {
 function addProject(projectName) {
   projects.push(projectName);
   updateLocalStorage();
+  updateTasksAndProjects();
 }
 
 function getProjects() {
